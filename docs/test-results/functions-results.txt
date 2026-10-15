@@ -1,0 +1,19 @@
+
+> the-movie-network-functions@1.0.0 check
+> node --check index.js && node --test catalog.test.js loginCode.test.js
+
+✔ calculates server-controlled prices and tax (0.6133ms)
+✔ rejects unknown products and invalid quantities (0.6807ms)
+✔ creates a random 6-digit code and stores only its hash (2.7326ms)
+✔ accepts the correct code for the same sign-in session (2.5656ms)
+✔ rejects wrong, malformed, expired and other-session codes (0.2215ms)
+✔ locks the code after too many wrong attempts, even if the right code follows (0.1985ms)
+✔ enforces a resend cooldown and masks email addresses (0.7971ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.9248

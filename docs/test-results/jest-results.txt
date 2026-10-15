@@ -1,0 +1,91 @@
+
+> the-movie-network@1.0.0 test:coverage
+> jest --coverage --collectCoverageFrom=*.js --collectCoverageFrom=!*.config.js --collectCoverageFrom=!jest.setup.js --collectCoverageFrom=!index.js --coverageReporters=text-summary --coverageReporters=text --verbose
+
+PASS __tests__/loginVerification.test.js
+  √ treats a session as verified only when the claim matches this sign-in (25 ms)
+  √ sends the ID token to the function and refreshes it after a correct code (6 ms)
+  √ passes the server error message and details back to the screen (2 ms)
+
+PASS __tests__/utils.test.js
+  √ app code does not use the removed StyleSheet.absoluteFillObject API (6 ms)
+  withTimeout
+    √ rejects a write that never settles (33 ms)
+    √ passes through results and errors that arrive in time (7 ms)
+  getAuthErrorMessage
+    √ shows readable messages for Firebase auth errors (1 ms)
+  formatRating
+    √ shows "Not yet rated" for movies without votes instead of 0.0
+
+PASS __tests__/AuthScreen.test.js
+  √ signs in with a trimmed, lower-cased email (977 ms)
+  √ asks for both fields before contacting Firebase (23 ms)
+  √ shows a readable message when the password is wrong (37 ms)
+  √ registers new accounts and enforces the 6-character password minimum (56 ms)
+
+PASS __tests__/Dashboard.test.js
+  √ shows a loading state, then renders trending movies from TMDb in a list (1177 ms)
+  √ opens a movie when its card is pressed (13 ms)
+  √ shows the API error and recovers when Retry succeeds (19 ms)
+  √ explains a network failure instead of showing a blank screen (8 ms)
+
+PASS __tests__/LoginVerificationScreen.test.js
+  √ emails a code as soon as the screen opens (1147 ms)
+  √ continues into the app when the code is correct (16 ms)
+  √ shows the server error and remaining attempts for a wrong code (17 ms)
+  √ rejects incomplete codes without calling the server and ignores non-digits (17 ms)
+  √ explains when the code could not be sent and lets the user sign out (10 ms)
+
+PASS __tests__/ReviewScreen.test.js (5.02 s)
+  √ loads existing reviews for this movie (1563 ms)
+  √ suggests GIFs related to the movie being reviewed (30 ms)
+  √ posts a review with a GIF after the verification code is entered (85 ms)
+  √ keeps the post button disabled until there is text and a GIF (20 ms)
+
+PASS __tests__/TheaterMapScreen.test.js (5.023 s)
+  √ finds nearby cinemas with Google Places and shows weather at each one (1255 ms)
+  √ still lists cinemas when the weather service fails (9 ms)
+  √ explains that location permission is needed (7 ms)
+  √ says so when there are no cinemas nearby (7 ms)
+
+PASS __tests__/StoreScreen.test.js (9.306 s)
+  √ caps each item at 10, matching the payment server (1500 ms)
+  √ shows cart totals with 5% tax (46 ms)
+  √ shows feedback for a declined payment and keeps the cart (873 ms)
+  √ saves the order and generates the PDF receipt automatically after payment (862 ms)
+  √ lets the user save and share the receipt PDF (955 ms)
+  √ warns on the receipt when the order cannot be saved, without losing the receipt (843 ms)
+  √ offers a retry when the PDF cannot be generated (853 ms)
+
+
+=============================== Coverage summary ===============================
+Statements   : 63.55% ( 422/664 )
+Branches     : 47.26% ( 285/603 )
+Functions    : 60.5% ( 95/157 )
+Lines        : 66.5% ( 399/600 )
+================================================================================
+----------------------------|---------|----------|---------|---------|---------------------------------------------
+File                        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                           
+----------------------------|---------|----------|---------|---------|---------------------------------------------
+All files                   |   63.55 |    47.26 |    60.5 |    66.5 |                                             
+ AdminDashboard.js          |       0 |        0 |       0 |       0 | 6-63                                        
+ App.js                     |       0 |        0 |       0 |       0 | 27-251                                      
+ AuthScreen.js              |   83.33 |    76.47 |   72.72 |   91.48 | 44-46,53,100                                
+ Dashboard.js               |   94.11 |     64.4 |     100 |   93.75 | 20-21                                       
+ GifSearch.js               |   71.73 |    57.69 |   63.63 |    73.8 | 26-27,30-31,46-47,59-60,72-78,95            
+ LoginVerificationScreen.js |   90.38 |    81.39 |   77.77 |     100 | 36-55,67-68,80,118                          
+ ReviewScreen.js            |   81.15 |     65.9 |   69.23 |   84.84 | 45,49,68-69,79-81,115-116,205               
+ StoreScreen.js             |   77.88 |    63.07 |   74.19 |   81.11 | 130-135,139-141,156,163-165,210,222-224,246 
+ StripeCheckout.js          |   40.47 |    11.53 |    62.5 |   43.24 | 10-55                                       
+ TheaterMapScreen.js        |   83.56 |    61.97 |   85.71 |   86.56 | 46,60-65,106,142                            
+ authErrors.js              |     100 |    66.66 |     100 |     100 | 13                                          
+ firebaseConfig.js          |       0 |        0 |     100 |       0 | 6-30                                        
+ loginVerification.js       |   90.47 |    77.77 |      80 |     100 | 12,25                                       
+ receiptService.js          |   68.96 |       30 |      75 |   70.37 | 125,140-148                                 
+ withTimeout.js             |     100 |      100 |     100 |     100 |                                             
+----------------------------|---------|----------|---------|---------|---------------------------------------------
+Test Suites: 8 passed, 8 total
+Tests:       36 passed, 36 total
+Snapshots:   0 total
+Time:        11.109 s
+Ran all test suites.

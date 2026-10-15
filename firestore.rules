@@ -1,0 +1,57 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Set by the verifyLoginCode function once the emailed code is confirmed; it only
+    // matches the sign-in session (auth_time) the code was sent for.
+    function verified() {
+      return signedIn() && request.auth.token.mfaAuthTime == request.auth.token.auth_time;
+    }
+
+    function isAdmin() {
+      return verified()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Nicknames are display names (see nickname.js): optional, 2-20 characters.
+    function validNickname(data) {
+      return !('nickname' in data)
+        || (data.nickname is string && data.nickname.size() >= 2 && data.nickname.size() <= 20);
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == 'user'
+        && validNickname(request.resource.data);
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow update: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastVisited', 'nickname'])
+        && validNickname(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /reviews/{reviewId} {
+      // Guests can browse reviews; posting one still needs a verified sign-in.
+      allow read: if true;
+      allow create: if verified()
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if verified()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    match /orders/{orderId} {
+      allow create: if verified()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'paid';
+      allow read: if verified()
+        && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if false;
+    }
+  }
+}
